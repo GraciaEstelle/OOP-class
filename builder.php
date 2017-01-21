@@ -1,3 +1,4 @@
+<?php
 interface builder
 {
     
@@ -9,3 +10,4 @@ interface builder
 
     public function deleteAll($table, $id);
 }
+?>
