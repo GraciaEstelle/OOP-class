@@ -11,10 +11,10 @@ class QueryBuilder implements builder
 
     public function createNew($table, $values,$param, $bind, $stm){
         try{
-            // TODO: INSERT INTO {$table} values {$values}
-            // TODO: prepare($insert)
-            // TODO: $param,$bind,$stm with bindParam
-            // TODO: execute
+            $insert = "insert into {$table} values {$values}";
+            $newItem = $this->pdo->prepare($insert);
+            $newItem->bindParam($param,$bind,$stm);
+            $newItem->execute();
         }catch (PDOException $exception){
             die($exception->getMessage());
         }
@@ -22,22 +22,26 @@ class QueryBuilder implements builder
 
     public function selectAll($select, $table, $where){
         // TODO: SELECT {$select} FROM {$table} WHERE {$where}
-        // TODO: execute
+        $statement = $this->pdo->prepare("SELECT {$select} FROM {$table} WHERE {$where}");
 
-        // TODO: return the correct fetch method, fetchAll with PDO::FETCH_ASSOC or PDO::FETCH_OBJ or PDO::FETCH_CLASS
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function updateAll($table, $column, $value, $id)
     {
         // TODO: UPDATE {$table} SET {$column}={$value} WHERE id={$id}
-        // TODO: prepare
-        // TODO: execute
+        $statement = $this->pdo->prepare("UPDATE {$table} SET {$column}={$value} WHERE id={$id}");
+
+        $statement->execute();
     }
 
     public function deleteAll($table, $id)
     {
         // TODO: DELETE FROM {$table} WHERE id={$id}
-        // TODO: prepare
-        // TODO: execute
+        $statement = $this->pdo->prepare("DELETE FROM {$table} WHERE id={$id}");
+
+        $statement->execute();
     }
-}?>
+}
